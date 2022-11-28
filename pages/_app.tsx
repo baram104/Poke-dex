@@ -1,5 +1,5 @@
 import type { AppProps } from "next/app";
-import { ChakraProvider, Flex } from "@chakra-ui/react";
+import { Box, ChakraProvider, Flex } from "@chakra-ui/react";
 import "../styles/pokemons.css";
 import Image from "next/image";
 import Head from "next/head";
@@ -9,7 +9,7 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <title>PokeDex</title>
       </Head>
-      <div
+      <Box
         style={{
           zIndex: -1,
           position: "fixed",
@@ -18,7 +18,7 @@ export default function App({ Component, pageProps }: AppProps) {
         }}
       >
         <Image src="/bg.png" alt="bg" layout="fill" objectFit="cover" />
-      </div>
+      </Box>
       <Flex justifyContent="center" pt={10}>
         <Image src="/title-logo.png" alt="bg" width={600} height={500} />
       </Flex>

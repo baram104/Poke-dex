@@ -14,11 +14,29 @@ export interface IPokemon {
 export interface IFormInput {
   title: string;
   value: string;
-  validations: {
-    required: boolean;
-    pattern?: { regex: RegExp; errorMsg: string };
-  };
   type: string;
   errors: string[];
   step: number;
+}
+export interface IFormProps {
+  formInput: IFormInput;
+  onSubmit: (inputValue: string) => void;
+}
+
+export interface IPaginationProps {
+  lastPage: number;
+  paginate: (n: number) => void;
+  currentPage: number;
+}
+
+export interface IPokemonDetailsProps {
+  pokemonDetails: IPokemonDetails;
+  onClose: () => void;
+  isLoading: boolean;
+}
+
+export interface IPokemonCardProps {
+  onOpen: () => void;
+  fetchPokeDetails: (pokeId: string) => void;
+  pokemon: IPokemon;
 }
