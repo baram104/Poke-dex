@@ -1,22 +1,5 @@
 import { NextRouter } from "next/router";
 import { LAST_REG_STEP, POKE_IMG_URL } from "./constants";
-import { IFormInput } from "./interfaces";
-
-export const validateInput = (formInput: IFormInput) => {
-  const value = formInput.value;
-  formInput.errors = [];
-
-  if (formInput.validations.required) {
-    if (value.length < 1) {
-      formInput.errors.push(`${formInput.title} is required`);
-    }
-  }
-  if (formInput.validations.pattern) {
-    if (!value.match(formInput.validations.pattern.regex)) {
-      formInput.errors.push(formInput.validations.pattern.errorMsg);
-    }
-  }
-};
 
 export const checkLocalStorageUserInfo = (router: NextRouter) => {
   //Check if the user finished the ragistration, if not-redirect accordingly to the last registration phase

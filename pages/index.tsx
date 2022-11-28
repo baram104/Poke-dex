@@ -104,16 +104,14 @@ export default function Pokemons(props: { pokemons: IPokemon[] }) {
       </Container>
 
       <Flex color="black" rounded={6} wrap="wrap" justifyContent="space-around">
-        {currentPokemons.length
-          ? currentPokemons.map((pokemon) => (
-              <PokemonCard
-                key={pokemon.name}
-                fetchPokeDetails={fetchPokeDetails}
-                onOpen={onOpen}
-                pokemon={pokemon}
-              ></PokemonCard>
-            ))
-          : ""}
+        {currentPokemons?.map((pokemon) => (
+          <PokemonCard
+            key={pokemon.name}
+            fetchPokeDetails={fetchPokeDetails}
+            onOpen={onOpen}
+            pokemon={pokemon}
+          ></PokemonCard>
+        ))}
       </Flex>
       <Pagination
         paginate={paginate}

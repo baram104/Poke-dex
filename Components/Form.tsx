@@ -10,29 +10,33 @@ import {
   Text,
   Box,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useRef } from "react";
 import { useState } from "react";
-import { validateInput } from "../common/helpers";
-import { IFormInput } from "../common/interfaces";
-export default function Form({
-  formInput,
-  onSubmit,
-}: {
-  formInput: IFormInput;
-  onSubmit: (inputValue: string) => void;
-}) {
-  const [isFormValid, setIsFormValid] = useState(true);
-  const submitForm = () => {
-    setIsFormValid(true);
+import { IFormProps } from "../common/interfaces";
+export default function Form({ formInput, onSubmit }: IFormProps) {
+  const [isFormValid, setIsFormValid] = useState(false);
+  const [isInputTouched, setIsInputTouched] = useState(false);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-    validateInput(formInput);
-
-    if (formInput.errors.length) {
+  const validateInput = (value: string | undefined) => {
+    setIsInputTouched(true);
+    if (value) {
+      setIsFormValid(true);
+      return true;
+    } else {
       setIsFormValid(false);
-      return;
+      return false;
     }
+  };
 
-    onSubmit(formInput.value);
+  const onInputChange = (e: React.FormEvent<HTMLInputElement>) => {
+    validateInput(e.currentTarget.value);
+  };
+
+  const submitForm = () => {
+    if (!inputRef.current) return;
+    if (!validateInput(inputRef.current?.value)) return;
+    onSubmit(inputRef.current.value);
   };
 
   return (
@@ -55,25 +59,25 @@ export default function Form({
             <Text color="blue.900">Please enter your details to proceed</Text>
           </Box>
         )}
-        <FormControl isInvalid={!isFormValid}>
+        <FormControl isInvalid={!isFormValid && isInputTouched}>
           <FormLabel>{formInput.title}</FormLabel>
           {formInput.type === "date" ? (
             <Input
-              onChange={(e) => (formInput.value = e.target.value)}
+              onChange={onInputChange}
               type="date"
               max="2022-01-01"
+              ref={inputRef}
             />
           ) : (
             <Input
               type={formInput.type}
-              onChange={(e) => (formInput.value = e.target.value)}
+              onChange={onInputChange}
+              ref={inputRef}
             />
           )}
-          {formInput.errors.length
-            ? formInput.errors.map((error: string, idx) => (
-                <FormErrorMessage key={idx}>{error}</FormErrorMessage>
-              ))
-            : ""}
+          {!isFormValid && isInputTouched && (
+            <FormErrorMessage>Please enter a value</FormErrorMessage>
+          )}
           <Flex justifyContent="center">
             <Button onClick={submitForm} m={10}>
               {formInput.step === 1 ? "Next" : "Finish"}

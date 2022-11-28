@@ -7,17 +7,13 @@ import {
   Image,
 } from "@chakra-ui/react";
 import { computePokeId, computePokeImgSrc } from "../common/helpers";
-import { IPokemon } from "../common/interfaces";
+import { IPokemonCardProps } from "../common/interfaces";
 
 export default function PokemonCard({
   onOpen,
   fetchPokeDetails,
   pokemon,
-}: {
-  onOpen: () => void;
-  fetchPokeDetails: (pokeId: string) => void;
-  pokemon: IPokemon;
-}) {
+}: IPokemonCardProps) {
   return (
     <Card
       w={[
@@ -39,7 +35,6 @@ export default function PokemonCard({
         onOpen();
         fetchPokeDetails(computePokeId(pokemon.url));
       }}
-      key={pokemon.name}
     >
       <CardBody p={3}>
         <Center
